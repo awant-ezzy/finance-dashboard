@@ -1,0 +1,18 @@
+{
+  "name": "DompetKu — Pembukuan Pemasukan & Pengeluaran",
+  "short_name": "DompetKu",
+  "description": "Catat pemasukan & pengeluaran dengan ringkasan harian, mingguan, bulanan, tahunan.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1a17",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

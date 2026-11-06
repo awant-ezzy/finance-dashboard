@@ -1,0 +1,56 @@
+// Prisma schema for Pembukuan Pengeluaran & Pemasukan
+// learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String
+  passwordHash String
+  currency     String        @default("IDR")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  categories   Category[]
+}
+
+model Category {
+  id           String        @id @default(cuid())
+  name         String
+  type         String // "income" | "expense"
+  icon         String?
+  color        String?
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+
+  @@unique([userId, name, type])
+  @@index([userId, type])
+}
+
+model Transaction {
+  id          String    @id @default(cuid())
+  type        String    // "income" | "expense"
+  amount      Float
+  description String
+  date        DateTime
+  userId      String
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId, date])
+  @@index([userId, type])
+  @@index([userId, date, type])
+}
